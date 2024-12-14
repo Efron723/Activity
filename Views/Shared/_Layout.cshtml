@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    @*
+       asp-append-version 件路徑後面添加一個哈希查詢字符串，以避免瀏覽器快取問題
+       當 css 更新時，強制重新加載最新版本
+    *@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* RenderSection 單獨頁面使用 css 或 script，會出現在這個 section 裡面 *@
+    <link href="~/css/Activity.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="container">
+        <!-- 登入後顯示 header -->
+        @if (Context.Session.GetString("MemberId") != null)
+        {
+            <header class="d-flex justify-content-center align-items-center">
+                <!-- 讓 nav 居中對齊 -->
+                <nav class="navbar navbar-expand-lg bg-body-tertiary w-100">
+                    <div class="container-fluid d-flex justify-content-center">
+                        <a class="navbar-brand text-dark fw-bolder fs-2 mx-3" href="@Url.Action("Index", "Home")">活動首頁</a>
+                        <a class="navbar-brand text-dark fw-bolder fs-2 mx-3" href="@Url.Action("Create", "Home")">新增活動</a>
+                        <a class="navbar-brand text-dark fw-bolder fs-2 mx-3 text-center" href="@Url.Action("ActivityA", "Home")">活動 A</a>
+                        <a class="navbar-brand text-dark fw-bolder fs-2 mx-3 text-center" href="@Url.Action("ActivityB", "Home")">活動 B</a>
+                    </div>
+                </nav>
+
+                <!-- 顯示帳號名稱 -->
+                <span class="fs-3 fw-bolder me-5">@Context.Session.GetString("Account")</span>
+
+                <div class="d-flex justify-content-center align-items-center">
+                    <form asp-action="Logout" method="post" class="fw-bolder">
+                        <!-- 登出按鈕 -->
+                        <button type="submit" class="logoutBtn btn btn-warning fw-bolder fs-5 me-3">登出</button>
+                    </form>
+                </div>
+            </header>
+        }
+
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

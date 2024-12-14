@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "活動首頁";
+}
+
+@* 單獨引入 css *@
+@section Styles {
+    <link rel="stylesheet" href="~/css/Activity.css" />
+}
+
+<h1 class="d-flex justify-content-center mt-5 mb-5 fw-bolder">活動首頁</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 d-flex justify-content-center align-items-center">
+            <a href="@Url.Action("ActivityA", "Home")" class="ActivityCard w-100 fw-bolder">活動 A</a>
+        </div>
+
+        <div class="col-6 d-flex justify-content-center align-items-center">
+            <a href="@Url.Action("ActivityB", "Home")" class="ActivityCard w-100 fw-bolder">活動 B</a>
+        </div>
+    </div>
+</div>

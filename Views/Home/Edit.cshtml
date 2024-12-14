@@ -1,0 +1,62 @@
+﻿@model Activity.Models.VariousActivity
+
+@{
+    ViewBag.Title = "編輯活動";
+}
+
+<h1 class="text-center mt-5 mb-5 fw-bolder">@Html.Raw(Model.Title + "&nbsp;&nbsp;&nbsp;(編輯活動)")</h1>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data" class="fw-bolder">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label class="form-label required" asp-for="Type">選擇活動</label>
+        <select class="form-control" asp-for="Type" asp-items="Html.GetEnumSelectList(typeof(Activity.Models.VariousActivityType))">
+            <option value="" disabled selected>--- 請選擇活動 ---</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">標題</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">活動描述</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Picture" class="form-label">更換圖片</label>
+        <input asp-for="Picture" name="PictureFile" type="file" class="form-control">
+        <div class="d-flex">
+            <div>
+                <div class="d-flex justify-content-center align-content-center fw-bolder fs-5 mt-3">原圖</div>
+                <img src="@Model.Picture" alt="Current Image" style="width: 100px; margin-top: 10px;" />
+            </div>
+            <div class="ms-5">
+                <div class="d-flex justify-content-center align-content-center fw-bolder fs-5 mt-3">修改後</div>
+                <img src="@Model.Picture" id="newImagePreview" alt="Current Image" style="width: 100px; margin-top: 10px;" />
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Sort" class="form-label">排序</label>
+        <input type="number" asp-for="Sort" min="0" class="form-control" />
+        <span asp-validation-for="Sort" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary fw-bolder">編輯</button>
+    <button type="button" class="btn btn-warning ms-5 fw-bolder" onclick="history.back()">取消</button>
+</form>
+
+<script>
+    document.querySelector("input[name='PictureFile']").addEventListener("change", function (e) {
+        let file = e.target.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("newImagePreview").src = e.target.result;
+            }
+
+            reader.readAsDataURL(file);
+        }
+    })
+</script>

@@ -1,0 +1,61 @@
+﻿@using Activity.Models
+@* IEnumerable 接收多筆數據(@foreach) 延遲加載(需要才加載) *@
+@model IEnumerable<VariousActivity>
+
+@{
+    ViewBag.Title = "活動 B";
+}
+
+<div class="w-100 d-flex justify-content-between align-items-center mt-5 mb-5">
+    <h1 class="fw-bolder text-center flex-grow-1">活動 B</h1>
+    @if (Model != null && Model.Any())
+    {
+        <form asp-action="DeleteAllActivityB" asp-controller="Home" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger fw-bolder" onclick="return confirm('確定要刪除所有活動 B 贈品嗎?');">
+                全部刪除
+            </button>
+        </form>
+    }
+</div>
+
+<div class="container">
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var activity in Model)
+            {
+                <div class="col-md-4 mb-4" style="margin-bottom: 30px;">
+                    <div class="card h-100">
+                        <a href="@Url.Action("ActivityInformation", "Home", new { id = activity.Id })">
+                            <img src="@Url.Content(activity.Picture)" class="card-img-top object-cover w-100" style="height: 200px;" alt="Activity Image">
+                        </a>
+                        <div class="card-body align-items-center">
+                            <div class="fw-bolder">
+                                <h5 class="card-title fw-bolder mb-4">活動標題 : @activity.Title</h5>
+                                <p class="card-text">活動內容 : @activity.Description</p>
+                                <p class="card-text">活動順位 : @activity.Sort</p>
+                            </div>
+                            <div class="mt-3 d-flex justify-content-between align-items-center">
+                                <a href="@Url.Action("Edit", "Home", new { id = activity.Id })" class="btn btn-warning me-2">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="@Url.Action("Details", "Home", new { id = activity.Id })" class="btn btn-success me-2">
+                                    <i class="bi bi-gift-fill"></i>
+                                </a>
+                                <form asp-action="Delete" asp-controller="Home" asp-route-id="@activity.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('確定要刪除嗎?');">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <h1>目前沒有活動</h1>
+        }
+    </div>
+</div>

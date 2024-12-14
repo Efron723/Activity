@@ -1,0 +1,32 @@
+﻿@model Activity.Models.Giveaway
+
+@{
+    ViewBag.Title = Model.Id == Guid.Empty ? "新增贈品" : "修改贈品";
+}
+
+<h1 class="text-center mt-5 mb-5 fw-bolder">
+    @(Model.Activity != null
+        ? Html.Raw(Model.Activity.Title + "&nbsp;&nbsp;&nbsp;(新增贈品)")
+        : "新增贈品")
+</h1>
+
+<form asp-action="Giveaway" method="post" class="fw-bolder">
+    <input type="hidden" asp-for="ActivityId" />
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">活動贈品</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary fw-bolder">
+        @(Model.Id == Guid.Empty ? "新增" : "修改")
+    </button>
+    <button type="button" class="btn btn-warning ms-5 fw-bolder" onclick="goBackDetails()">取消</button>
+</form>
+
+<script>
+    function goBackDetails () {
+        var activityId = document.querySelector('input[name = "ActivityId"]').value;
+        window.location.href = `Details/${activityId}`;
+    }
+</script>

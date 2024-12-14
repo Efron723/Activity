@@ -1,0 +1,91 @@
+﻿<div class="carousel">
+    <div class="carousel-slides">
+        <div class="carousel-slide">
+            <img src="@Url.Content("~/img/img_function_search_search.png")" alt="img">
+        </div>
+        <div class="carousel-slide">
+            <img src="@Url.Content("~/img/img_function_search_project.png")" alt="img">
+        </div>
+        <div class="carousel-slide">
+            <img src="@Url.Content("~/img/img_function_search_roomdisplay.png")" alt="img">
+        </div>
+        <div class="carousel-slide">
+            <img src="@Url.Content("~/img/img_function_search_promobanner.png")" alt="img">
+        </div>
+        <div class="carousel-slide">
+            <img src="@Url.Content("~/img/img_function_search_emptyroom.png")" alt="img">
+        </div>
+    </div>
+</div>
+<div class="carousel-pagination">
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+</div>
+
+.carousel {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    max-width: 600px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.carousel-slides {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+    .carousel-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .carousel-slide.active {
+        opacity: 1;
+        z-index: 1;
+    }
+
+.carousel-pagination {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 2;
+}
+
+    .carousel-pagination button {
+        border: none;
+        background-color: #ddd;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.5s ease-in-out;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .carousel-pagination button.active {
+            background-color: #007bff;
+            color: white;
+        }

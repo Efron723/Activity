@@ -1,0 +1,23 @@
+﻿@model Activity.Models.Member
+
+@{
+    ViewBag.Title = "登入";
+}
+
+<h1 class="text-center mt-5 mb-5 fw-bolder">登入</h1>
+
+<form asp-action="Login" method="post" class="fw-bolder">
+    <div class="mb-3">
+        <label for="account" class="form-label fs-5 mb-3">帳號</label>
+        <input asp-for="Account" class="form-control" id="account" />
+        <span asp-validation-for="Account" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label fs-5 mb-3 mt-5">密碼</label>
+        <input asp-for="Password" type="password" class="form-control" id="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="d-flex mt-5">
+        <button type="submit" class="btn btn-primary fw-bolder fs-5">登入</button>
+    </div>
+</form>

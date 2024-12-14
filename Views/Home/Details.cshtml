@@ -1,0 +1,101 @@
+﻿@model Activity.Models.VariousActivity
+
+@{
+    ViewBag.Title = "活動贈品";
+}
+@* 不要跳脫 html 字元 *@
+<h1 class="text-center mt-5 mb-5 fw-bolder">@Html.Raw(Model.Title + "&nbsp;&nbsp;&nbsp;(新增贈品)")</h1>
+
+<img class="w-100" src="@Model.Picture" alt="Current Image" />
+
+<div class="mb-3 mt-3 fw-bolder">
+    <label class="form-label required fw-bolder" asp-for="Type">選擇活動</label>
+    <select class="form-control" asp-for="Type" asp-items="Html.GetEnumSelectList(typeof(Activity.Models.VariousActivityType))" disabled>
+        <option value="" disabled selected>--- 請選擇活動 ---</option>
+    </select>
+    <input type="hidden" name="Type" value="@Model.Type.ToString()" />
+</div>
+
+<div class="mb-3 fw-bolder">
+    <label asp-for="Title" class="form-label">標題</label>
+    <input asp-for="Title" class="form-control" disabled />
+</div>
+
+<div class="mb-3 fw-bolder">
+    <label asp-for="Description" class="form-label">活動描述</label>
+    <textarea asp-for="Description" class="form-control" style="resize: none;" disabled></textarea>
+</div>
+
+<div class="mb-3 fw-bolder">
+    <label asp-for="Sort" class="form-label">排序</label>
+    <input type="number" asp-for="Sort" min="0" class="form-control" disabled />
+</div>
+
+<h1 class="text-center mt-5 mb-5 fw-bolder">活動贈品</h1>
+
+<table class="table table-striped table-hover fw-bolder">
+    <thead>
+        <tr>
+            <th colspan="3" class="text-center">目前已選擇贈品</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Giveaways == null || !Model.Giveaways.Any())
+        {
+            <tr>
+                <td colspan="3" class="text-center">目前無選擇贈品</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var giveaway in Model.Giveaways)
+            {
+                <tr>
+                    <td class="text-center col-1"><a href="@Url.Action("Giveaway", "Home", new { activityId = Model.Id, giveawayId = giveaway.Id })"><i class="bi bi-pencil-square btn btn-success"></i></a></td>
+                    <td class="text-center align-middle col-10">@giveaway.Name</td>
+                    <td class="text-center col-1">
+                        <form asp-action="DeleteGiveaway" asp-controller="Home" asp-route-id="@giveaway.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('確定要刪除嗎?');">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-primary fw-bolder" href="@Url.Action("Giveaway", "Home", new { activityId = Model.Id }) ">新增贈品</a>
+
+<button type="button" class="btn btn-warning ms-5 fw-bolder" onclick="goBackActivity()">返回上一頁</button>
+
+@if (Model.Giveaways != null && Model.Giveaways.Any())
+{
+    <form asp-action="DeleteAllGiveaway" asp-controller="Home" asp-route-id="@Model.Id" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger fw-bolder ms-5" onclick="return confirm('確定要刪除所有贈品嗎?');">
+            全部刪除
+        </button>
+    </form>
+}
+
+<script>
+    // 防止進入 Giveaway 後跳轉頁面失敗
+    function goBackActivity()
+    {
+        var activityType = document.querySelector('input[name = "Type"]').value;
+
+        if (activityType == "活動A")
+        {
+            window.location.href = "/Home/ActivityA";
+        }
+        else if (activityType == "活動B")
+        {
+            window.location.href = "/Home/ActivityB";
+        }
+        else
+        {
+            console.error("未知的活動類型");
+        }
+    }
+</script>
